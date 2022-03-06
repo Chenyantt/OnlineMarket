@@ -1,0 +1,4 @@
+commodityID,commodityName,price,number,description,sellerID,addedDate,state
+M001,badge,100.0,0,souvenir,U001,2022-02-15,remove
+M002,GarageKits,10.0,0,souvenir,U001,2022-02-15,remove
+M481,sweater,50.0,50,very warm ,U139,2022-03-06,remove
