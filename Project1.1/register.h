@@ -1,5 +1,5 @@
-#ifndef _REGISTER_
-#define _REGISTER_
+#ifndef _REGISTER_H_
+#define _REGISTER_H_
 
 #include <string>
 

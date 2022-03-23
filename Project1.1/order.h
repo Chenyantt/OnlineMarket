@@ -1,5 +1,5 @@
-#ifndef _ORDER_
-#define _ORDER_
+#ifndef _ORDER_H_
+#define _ORDER_H_
 
 #include <string>
 
@@ -9,7 +9,7 @@ class Order {
 public:
 	Order();
 	Order(string id, string goods, double price, int number, string date, string seller, string buyer);
-	static int GetNum();
+	static int GetNum(); static void ModNum(int n);
 	string getid() const; string getgoods() const;
 	double getprice() const; int getnumber() const;
 	string gettime() const; string getbuyer() const;

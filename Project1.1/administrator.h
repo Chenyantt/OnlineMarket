@@ -1,5 +1,5 @@
-#ifndef _ADMINISTRATOR_
-#define _ADMINISTRATOR_
+#ifndef _ADMINISTRATOR_H_
+#define _ADMINISTRATOR_H_
 
 #include <string>
 
@@ -15,5 +15,7 @@ private:
 	string admin_password;
 };
 
-#endif
+void CheckMessage();
+void SearchMessage();
 
+#endif

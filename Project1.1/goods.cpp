@@ -20,8 +20,24 @@ Goods::Goods(string* id, string* name, double p, int n, string* d, string* s,str
 	goods_state = state;
 }
 
+Goods::Goods(Goods& g) {
+	goods_id = g.goods_id;
+	goods_name = g.goods_name;
+	price = g.price;
+	number = g.number;
+	description = g.description;
+	seller = g.seller;
+	goods_time = g.goods_time;
+	goods_state = g.goods_state;
+}
+
 int Goods::GetNum() {
 	return GoodsNum;
+}
+
+void Goods::ModNum(int n) {
+	GoodsNum = n;
+	return;
 }
 
 string Goods::getid() const {

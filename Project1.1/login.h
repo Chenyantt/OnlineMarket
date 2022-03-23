@@ -1,5 +1,5 @@
-#ifndef _LOGIN_
-#define _LOGIN_
+#ifndef _LOGIN_H_
+#define _LOGIN_H_
 
 void Login();
 

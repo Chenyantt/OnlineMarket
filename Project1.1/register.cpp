@@ -1,45 +1,47 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "register.h"
-#include "user.h"
-#include "data.h"
 
 #include <iostream>
 #include <string>
 #include <stdlib.h>
 #include <time.h>
 
+#include "user.h"
+#include "data.h"
+#include "color.h"
+
 using namespace std;
 
 void Register() {
 	string user_name;
 back:
-	printf("请设置用户名（不超过10个字符，仅可使用英文字母）：");
-	cin >> user_name;
+	cout << "请设置用户名（不超过10个字符，仅可使用英文字母）：";
+	getline(cin, user_name);
+	while (user_name == "") getline(cin, user_name);
 	if (IsLegal(user_name, 10, 1)) {
 		if (!IsDuplicate(user_name,1)) {
-			cout << "用户名重复，请重新输入。" << endl;
+			cout <<FRONT_RED<< "用户名重复，请重新输入。" <<RESET<< endl;
 			goto back;
 		}
 		else {
-			getchar();
 			BuildCount(user_name);
 			return;
 		}
 	}
 	else {
-		cout << "用户名过长或者含有非法字符，请重新输入。" << endl;
+		cout << FRONT_RED << "用户名过长或者含有非法字符，请重新输入。" <<RESET<< endl;
 		goto back;
 	}
 }
 
-//username mode 1;password mode 2;desciption & address mode 3;phone mode 4;
+//username address mode 1;password mode 2;desciption  mode 3;phone mode 4;
 bool IsLegal(string name, int max_length, int mode) {
 	int length = name.length();
 	if (length > max_length) {
 		return false;
 	}
 	for (int i = 0; i < length; i++) {
-		if ((name[i] >= 48 && name[i] <= 57) || (mode == 3 && name[i] >= 0 && name[i] <= 127) || 
+		if (( mode != 1 && name[i] >= 48 && name[i] <= 57) || (mode == 3 && name[i] >= 0 && name[i] <= 127) || 
 			(mode == 1 && name[i] >= 65 && name[i] <= 90) || (mode!=4 && name[i] >= 97 && name[i] <= 122)) {
 			continue;
 		}
@@ -77,33 +79,39 @@ bool IsDuplicate(string name,int mode) {
 void BuildCount(string name) {
 	string password, address, phone;
 back1:
-	cout << "请设置密码（不超过20个字符，只可有小写字母和数字组成）：" << endl;
+	cout << "请设置密码（不超过20个字符，只可有小写字母和数字组成）：";
 	getline(cin,password);
+	while (password == "") getline(cin, password);
 	if (IsLegal(password, 20, 2)) {
 	back2:
-		cout << "请填写地址（不超过40个字符，仅可使用英文字符或数字）：" << endl;
+		cout <<"请填写地址（不超过40个字符，仅可使用英文字母）：";
 		getline(cin, address);
-		if (IsLegal(address, 40, 3)) {
+		while (address == "") getline(cin, address);
+		if (IsLegal(address, 40, 1)) {
 		back3:
-			cout << "请填写手机号码（不超过20个字符，仅可使用数字）：" << endl;
+			cout <<"请填写手机号码（不超过20个字符，仅可使用数字）：";
 			getline(cin, phone);
+			while (phone == "") getline(cin, phone);
 			if (IsLegal(phone, 20, 4)) {
 				string uid = BuildUid('U');
 				users[User::GetNum()-1] = User(&uid, &name, &password, &phone, &address, 0, 1);
+				Box tmp;
+				tmp.owner = &users[User::GetNum() - 1];
+				boxes.insert(pair<string, Box>(uid, tmp));
 				return;
 			}
 			else {
-				cout << "电话号码过长或者含有非法字符，请重新输入。" << endl;
+				cout <<FRONT_RED<< "电话号码过长或者含有非法字符，请重新输入。" <<RESET<< endl;
 				goto back3;
 			}
 		}
 		else {
-			cout << "地址过长或者含有非法字符，请重新输入。" << endl;
+			cout << FRONT_RED << "地址过长或者含有非法字符，请重新输入。" <<RESET<< endl;
 			goto back2;
 		}
 	}
 	else {
-		cout << "密码过长或者含有非法字符，请重新输入。" << endl;
+		cout << FRONT_RED << "密码过长或者含有非法字符，请重新输入。" <<RESET<< endl;
 		goto back1;
 	}
 }

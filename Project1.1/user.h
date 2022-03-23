@@ -1,5 +1,5 @@
-#ifndef _USER_
-#define _USER_
+#ifndef _USER_H_
+#define _USER_H_
 
 #include <string>
 
@@ -9,7 +9,7 @@ class User {
 public:
 	User();
 	User(string* id, string* name, string* password, string* phone, string* address, double m,int state);
-	static int GetNum();
+	static int GetNum(); static void ModNum(int n);
 	void menu(); void seller_menu(); void buyer_menu(); void self_menu();
 	string getid() const; string getname() const; 
 	string getpassword() const; string getphone() const;
@@ -28,5 +28,6 @@ private:
 	int state;
 };
 
-#endif
+int IsNumberLegal(string s);
 
+#endif

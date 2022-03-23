@@ -25,6 +25,11 @@ int Order::GetNum() {
 	return OrderNum;
 }
 
+void Order::ModNum(int n) {
+	OrderNum = n;
+	return;
+}
+
 string Order::getid() const {
 	return order_id;
 } 

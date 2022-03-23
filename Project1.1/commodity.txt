@@ -1,4 +1,9 @@
 commodityID,commodityName,price,number,description,sellerID,addedDate,state
-M001,badge,100.0,0,souvenir,U001,2022-02-15,remove
-M002,GarageKits,10.0,0,souvenir,U001,2022-02-15,remove
-M481,sweater,50.0,50,very warm ,U139,2022-03-06,remove
+M035,asd,1500.0,2,a,U001,2022-03-21,onsale
+M571,bsd,130.0,3,a,U001,2022-03-21,onsale
+M447,d,25.0,1,1,U001,2022-03-21,onsale
+M578,b,15.0,1,1,U001,2022-03-21,onsale
+M200,c,10.0,1,1,U001,2022-03-21,onsale
+M854,ab,1.0,1,1,U001,2022-03-21,onsale
+M467,abc,1.0,1,1,U001,2022-03-21,onsale
+M713,ad,1.0,1,1,U001,2022-03-21,onsale

@@ -54,6 +54,15 @@
     <ClCompile Include="administrator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="color.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="trolley.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="box.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="administrator.h">
@@ -92,6 +101,15 @@
     <ClInclude Include="user.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="color.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="trolley.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="box.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="user.txt">
@@ -104,6 +122,15 @@
       <Filter>资源文件</Filter>
     </Text>
     <Text Include="commodity.txt">
+      <Filter>资源文件</Filter>
+    </Text>
+    <Text Include="recharge.txt">
+      <Filter>资源文件</Filter>
+    </Text>
+    <Text Include="trolley.txt">
+      <Filter>资源文件</Filter>
+    </Text>
+    <Text Include="message.txt">
       <Filter>资源文件</Filter>
     </Text>
   </ItemGroup>
