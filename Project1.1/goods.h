@@ -1,5 +1,5 @@
-#ifndef _GOODS_
-#define _GOODS_
+#ifndef _GOODS_H_
+#define _GOODS_H_
 
 #include <string>
 
@@ -10,7 +10,8 @@ class Goods
 public:
 	Goods();
 	Goods(string* id, string* name, double p,int n, string* d, string* s,string* time,int state);
-	static int GetNum();
+	Goods(Goods& g);
+	static int GetNum(); static void ModNum(int n);
 	string getid() const; string getname() const; 
 	double getprice() const; int getnumber() const;
 	string getdes() const; string getseller() const; 
@@ -28,5 +29,4 @@ private:
 	string goods_time;
 	int goods_state;
 };
-
 #endif

@@ -1,5 +1,5 @@
-#ifndef _MENU_
-#define _MENU_
+#ifndef _MENU_H_
+#define _MENU_H_
 
 #include <iostream>
 
@@ -9,4 +9,3 @@ void Welcome();
 void Goodbye();
 string Menu();
 #endif
-

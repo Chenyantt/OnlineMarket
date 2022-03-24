@@ -1,0 +1,4 @@
+(userID)commodityID,commodityName,price,number,sellerID,addedDate,state
+(U273)
+(U428)
+(U566)

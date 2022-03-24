@@ -1,0 +1,4 @@
+(userID)commodityID,commodityName,price,number,sellerID,addedDate,state(U314)
+M035,asd,1500.0,20,U314,2022-03-21,1
+M571,bsd,130.0,10,U314,2022-03-21,1
+M713,ad,1.0,4,U314,2022-03-21,1

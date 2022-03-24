@@ -1,5 +1,5 @@
-#ifndef _UPDATE_
-#define _UPDATE_
+#ifndef _UPDATE_H_H_
+#define _UPDATE_H_H_
 
 #include <string>
 
@@ -13,4 +13,3 @@ void UpdateGoods(string command, int mode, string id);
 int BanUser(string command, int mode, string id);
 
 #endif
-

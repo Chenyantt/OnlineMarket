@@ -20,7 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="administrator.cpp" />
+    <ClCompile Include="balance.cpp" />
+    <ClCompile Include="calculator.cpp" />
     <ClCompile Include="check.cpp" />
+    <ClCompile Include="color.cpp" />
     <ClCompile Include="data.cpp" />
     <ClCompile Include="file.cpp" />
     <ClCompile Include="goods.cpp" />
@@ -28,29 +31,39 @@
     <ClCompile Include="login.cpp" />
     <ClCompile Include="mainpage.cpp" />
     <ClCompile Include="menu.cpp" />
+    <ClCompile Include="box.cpp" />
     <ClCompile Include="order.cpp" />
     <ClCompile Include="register.cpp" />
+    <ClCompile Include="trolley.cpp" />
     <ClCompile Include="update.cpp" />
     <ClCompile Include="user.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="administrator.h" />
+    <ClInclude Include="balance.h" />
+    <ClInclude Include="calculator.h" />
     <ClInclude Include="check.h" />
+    <ClInclude Include="color.h" />
     <ClInclude Include="data.h" />
     <ClInclude Include="file.h" />
     <ClInclude Include="goods.h" />
     <ClInclude Include="insert.h" />
     <ClInclude Include="login.h" />
     <ClInclude Include="menu.h" />
+    <ClInclude Include="box.h" />
     <ClInclude Include="order.h" />
     <ClInclude Include="register.h" />
+    <ClInclude Include="trolley.h" />
     <ClInclude Include="update.h" />
     <ClInclude Include="user.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="commands.txt" />
     <Text Include="commodity.txt" />
+    <Text Include="message.txt" />
     <Text Include="order.txt" />
+    <Text Include="recharge.txt" />
+    <Text Include="trolley.txt" />
     <Text Include="user.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -5,10 +5,13 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <map>
 
 #include "data.h"
 #include "register.h"
 #include "file.h"
+#include "user.h"
+#include "color.h"
 
 using namespace std;
 
@@ -35,6 +38,12 @@ void BanSeller(string command, int mode, string id) {
 			goods[i].remove();
 		}
 	}
+	for (map<string, Trolley>::iterator iter = trolleys.begin(); iter != trolleys.end() ; iter++) {
+		for (int i = 0; i < iter->second.num; ++i) {
+			if (iter->second.items[i].getseller() == user_id)
+				iter->second.remove(iter->second.items[i].getid(), iter->second.items[i].getnum());
+		}
+	}
 	time_t rawtime;
 	struct tm* info;
 	char buffer[80];
@@ -43,7 +52,7 @@ void BanSeller(string command, int mode, string id) {
 	strftime(buffer, 80, "%Y-%m-%d %H:%M:%S: ", info);
 	ofstream ofile;
 	ofile.open("commands.txt", ios::app);
-	ofile << '\n' << buffer << command;
+	ofile<< buffer << command << '\n';
 	ofile.close();
 	return;
 }
@@ -52,6 +61,10 @@ void RemoveGoods(string command, int mode, string id) {
 	string input, goods_id = command.substr(command.find("goods_id = ") + 11);
 	for (int i = 0; goods[i].getstate() != -1; ++i) {
 		if ((mode == 1 && goods[i].getid() == goods_id) || (mode == 2 && goods[i].getid() == goods_id && goods[i].getseller() == id)) {
+			if (goods[i].getstate() == 0) {
+				cout <<FRONT_RED<< "该商品已处在下架状态中！" <<RESET<< endl;
+				return;
+		}
 		back:
 			cout << "确定下架该商品吗？" << endl;
 			cout << "**************************************************************************************" << endl;
@@ -64,10 +77,17 @@ void RemoveGoods(string command, int mode, string id) {
 			if (goods[i].getstate() == 1) cout << setw(10) << "销售中" << endl;
 			else cout << setw(10) << "已下架" << endl;
 			cout << "**************************************************************************************" << endl;
-			cout << "请选择（y/n）：";
-			cin >> input;
+			cout << "请选择(y/n)：";
+			getline(cin, input);
+			while (input == "") getline(cin, input);
 			if (input == "y") {
 				goods[i].remove();
+				for (map<string, Trolley>::iterator iter = trolleys.begin(); iter != trolleys.end(); iter++) {
+					for (int i = 0; i < iter->second.num; ++i) {
+						if (iter->second.items[i].getid() == goods_id)
+							iter->second.remove(goods_id, iter->second.items[i].getnum());
+					}
+				}
 				time_t rawtime;
 				struct tm* info;
 				char buffer[80];
@@ -76,22 +96,22 @@ void RemoveGoods(string command, int mode, string id) {
 				strftime(buffer, 80, "%Y-%m-%d %H:%M:%S: ", info);
 				ofstream ofile;
 				ofile.open("commands.txt", ios::app);
-				ofile << '\n' << buffer << command;
+				ofile << buffer << command << '\n';
 				ofile.close();
-				cout << endl << "下架成功" << endl;
+				cout << FRONT_GREEN <<"下架成功" <<RESET<< endl;
 				return;
 			}
 			else if (input == "n") {
-				cout << endl << "操作已取消" << endl;
+				cout << FRONT_RED <<"操作已取消" << RESET << endl;
 				return;
 			}
 			else {
-				cout << endl << "输入错误，请重新输入" << endl;
+				cout << FRONT_RED <<"输入错误，请重新输入" <<RESET<< endl<<endl;
 				goto back;
 			}
 		}
 	}
-	cout << endl << "没有查询到商品，请确认id是否正确" << endl;
+	cout <<FRONT_RED<<"没有查询到商品，请确认id是否正确" <<RESET<< endl;
 	return;
 }
 
@@ -109,12 +129,18 @@ void BuyGoods(string command, int mode,string id) {
 			strftime(buffer, 80, "%Y-%m-%d %H:%M:%S: ", info);
 			ofstream ofile;
 			ofile.open("commands.txt", ios::app);
-			ofile << '\n' << buffer << command;
+			ofile << buffer << command << '\n';
 			ofile.close();
 			if (number == 0) {
 				goods[i].remove();
+				for (map<string, Trolley>::iterator iter = trolleys.begin(); iter != trolleys.end(); iter++) {
+					for (int i = 0; i < iter->second.num; ++i) {
+						if (iter->second.items[i].getid() == goods_id)
+							iter->second.items[i].mod_state(0);
+					}
+				}
 				ofile.open("commands.txt", ios::app);
-				ofile << '\n' << buffer << "UPDATE commodity SET state = remove WHERE goods_id = "<<goods[i].getid();
+				ofile << buffer << "UPDATE commodity SET state = remove WHERE goods_id = "<<goods[i].getid() << '\n';
 				ofile.close();
 			}
 			return;
@@ -132,10 +158,8 @@ void UpdateGoods(string command, int mode, string id) {
 		back:
 			if (command.find("price") != -1) {
 				string p = command.substr(command.find("price") + 8, command.find("WHERE") - 9 - command.find("price"));
-				int index = p.find('.');
-				int length = int(p.length());
-				if ((index == -1 && !IsLegal(p, 10, 4)) || (index != -1 && length > index + 2) || index == 0) {
-					cout << "输入无效，已自动返回！！" << endl;
+				if (!IsNumberLegal(p)) {
+					cout << FRONT_RED << "输入无效，已自动返回！！"<<RESET << endl;
 					return;
 				}
 				price = stod(p), des = goods[i].getdes();
@@ -143,7 +167,7 @@ void UpdateGoods(string command, int mode, string id) {
 			else {
 				des = command.substr(command.find("description") + 14, command.find("WHERE") - command.find("description") - 14);
 				if (!IsLegal(des, 200, 3)) {
-					cout << "输入无效，已自动返回！！" << endl;
+					cout << FRONT_RED << "输入无效，已自动返回！！"<<RESET << endl;
 					return;
 				}
 				price = goods[i].getprice();
@@ -151,10 +175,11 @@ void UpdateGoods(string command, int mode, string id) {
 			cout << "请确认修改的信息无误！" << endl;
 			cout << "*****************************************************************************" << endl;
 			cout << "商品ID: " << id << endl << "商品名称: " << goods[i].getname() << endl
-				<< "商品价格:" << price << endl << "商品描述: " << des << endl;
+				<< "商品价格：" << price << endl << "商品描述: " << des << endl;
 			cout << "*****************************************************************************" << endl;
-			cout << "请选择（y/n）：";
-			cin >> input;
+			cout << "请选择(y/n)：";
+			getline(cin, input);
+			while (input == "") getline(cin, input);
 			if (input == "y") {
 				goods[i].mod_des(des);
 				goods[i].mod_price(price);
@@ -166,22 +191,22 @@ void UpdateGoods(string command, int mode, string id) {
 				strftime(buffer, 80, "%Y-%m-%d %H:%M:%S: ", info);
 				ofstream ofile;
 				ofile.open("commands.txt", ios::app);
-				ofile << '\n' << buffer << command;
+				ofile << buffer << command << '\n';
 				ofile.close();
-				cout << endl << "修改成功" << endl;
+				cout << FRONT_GREEN <<"修改成功" <<RESET<< endl;
 				return;
 			}
 			else if (input == "n") {
-				cout << endl << "操作已取消" << endl;
+				cout << FRONT_RED << "操作已取消" << RESET << endl;
 				return;
 			}
 			else {
-				cout << endl << "输入错误，请重新输入" << endl;
+				cout << FRONT_RED <<"输入错误，请重新输入" <<RESET<< endl <<endl;
 				goto back;
 			}
 		}
 	}
-	cout << endl << "没有查询到商品，请确认id是否正确" << endl;
+	cout << FRONT_RED <<"没有查询到商品，请确认id是否正确" <<RESET<< endl;
 	return;
 }
 
@@ -190,7 +215,7 @@ int BanUser(string command, int mode, string id) {
 	for (int i = 0; users[i].getstate() != -1; ++i) {
 		if (users[i].getid() == user_id) {
 			if (users[i].getstate() == 0) {
-				cout << "该用户已被封禁！！！" << endl;
+				cout << FRONT_RED << "该用户已处在封禁状态中！" <<RESET<< endl;
 				return 0;
 			}
 			back:
@@ -203,8 +228,9 @@ int BanUser(string command, int mode, string id) {
 				 << setw(18) << users[i].getphone() << setw(25) << users[i].getaddress() 
 				 << setw(10) << users[i].getmoney() << endl;
 			cout << "********************************************************************************************" << endl;
-			cout << "请选择（y/n）：";
-			cin >> input;
+			cout << "请选择(y/n)：";
+			getline(cin, input);
+			while (input == "") getline(cin, input);
 			if (input == "y") {
 				users[i].ban();
 				time_t rawtime;
@@ -215,21 +241,21 @@ int BanUser(string command, int mode, string id) {
 				strftime(buffer, 80, "%Y-%m-%d %H:%M:%S: ", info);
 				ofstream ofile;
 				ofile.open("commands.txt", ios::app);
-				ofile << '\n' << buffer << command;
+				ofile << buffer << command << '\n';
 				ofile.close();
-				cout << endl << "封禁成功" << endl;
+				cout <<FRONT_GREEN<<"封禁成功" <<RESET<< endl;
 				return 1;
 			}
 			else if (input == "n") {
-				cout << endl << "操作已取消" << endl;
+				cout << FRONT_RED <<"操作已取消" << RESET << endl;
 				return 0;
 			}
 			else {
-				cout << endl << "输入错误，请重新输入" << endl;
+				cout << FRONT_RED <<"输入错误，请重新输入" <<RESET<< endl <<endl;
 				goto back;
 			}
 		}
 	}
-	cout << endl << "查无此人，请确认id是否正确" << endl;
+	cout << FRONT_RED <<"查无此人，请确认id是否正确" <<RESET<< endl;
 	return 0;
 }
