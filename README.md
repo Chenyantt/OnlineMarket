@@ -5,7 +5,7 @@
 
 2022/3/6 version 1.1
 
- 2022/3/23 version 1.2
+2022/3/23 version 1.2
 
   * Add the shopping trolley module.
 
@@ -16,3 +16,6 @@
   * Add the goods-sort function.
 
   * Beauty the interface.
+
+2022/3/24 version 1.3
+  * Repair the error of data store
