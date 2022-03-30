@@ -19,3 +19,10 @@
 
 2022/3/24 version 1.3
   * Repair the error of data store
+
+2022/3/30 version 1.4
+ * Repair the bug of the round module of calculator
+
+ * Repair the bug of shopping trolley
+
+ * Add the discount module
