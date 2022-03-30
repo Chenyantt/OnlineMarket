@@ -9,7 +9,7 @@ class Goods
 {
 public:
 	Goods();
-	Goods(string* id, string* name, double p,int n, string* d, string* s,string* time,int state);
+	Goods(string* id, string* name, double p,int n, string* d, string* s,string* time,int state,string mode);
 	Goods(Goods& g);
 	static int GetNum(); static void ModNum(int n);
 	string getid() const; string getname() const; 
@@ -18,6 +18,7 @@ public:
 	string gettime() const; int getstate() const;
 	void remove(); void mod_price(double pri); 
 	void mod_des(string des); void mod_num(int num);
+	string accountmode;
 private:
 	static int GoodsNum;
 	string goods_id;

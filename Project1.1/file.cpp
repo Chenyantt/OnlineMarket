@@ -82,12 +82,14 @@ void InitGoods() {
 		string seller = input.substr(pre_index, next_index - pre_index);
 		pre_index = next_index + 1, next_index = input.find(',', pre_index);
 		string time = input.substr(pre_index, next_index - pre_index);
-		pre_index = next_index + 1, next_index = input.find('\n', pre_index);
+		pre_index = next_index + 1, next_index = input.find(',', pre_index);
 		string state_s = input.substr(pre_index, next_index - pre_index);
+		pre_index = next_index + 1, next_index = input.find('\n', pre_index);
+		string mode = input.substr(pre_index, next_index - pre_index);
 		int state,number=stoi(number_s);
 		state_s[0] == 'o' ? state = 1 : state = 0;
 		double price = stod(price_s);
-		goods[i] = Goods(&id, &name, price, number, &description, &seller, &time,state);
+		goods[i] = Goods(&id, &name, price, number, &description, &seller, &time,state,mode);
 	}
 	ifile.close();
 	return;
@@ -302,6 +304,7 @@ void SaveGoods(){
 			  << goods[i].getseller()<<',' << goods[i].gettime() << ',';
 		if (goods[i].getstate() == 1) ofile << "onsale";
 		else ofile << "remove";
+		ofile << ',' << goods[i].accountmode;
 	}
 	ofile.close();
 	return;

@@ -1,1 +1,5 @@
 commodityID,commodityName,price,number,description,sellerID,addedDate,state
+M592,asdasdd,15.0,0,1\asd,U566,2022-03-30,remove,2/1
+M605,asd,5.0,8,asadda,U566,2022-03-30,onsale,10.0-5.0
+M746,as,5.0,5,as,U566,2022-03-30,onsale,0
+M180,a,10.0,10,1,U566,2022-03-30,onsale,0

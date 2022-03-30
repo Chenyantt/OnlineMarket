@@ -1,5 +1,6 @@
 userID, username, password, phoneNumber, address, balance, userState
-U566,test,123,1,a,0.0,active
-U273,testb,123,1,a,0.0,active
+U566,test,123,1,a,125.0,active
+U273,testb,123,1,a,875.0,active
 U428,testc,123,1,a,0.0,active
 U923,testd,123,1,a,0.0,active
+U610,asd,1,1,a,0.0,active

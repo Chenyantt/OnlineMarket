@@ -174,7 +174,7 @@ void UpdateGoods(string command, int mode, string id) {
 			}
 			cout << "请确认修改的信息无误！" << endl;
 			cout << "*****************************************************************************" << endl;
-			cout << "商品ID: " << id << endl << "商品名称: " << goods[i].getname() << endl
+			cout << "商品ID: " << goods_id << endl << "商品名称: " << goods[i].getname() << endl
 				<< "商品价格：" << price << endl << "商品描述: " << des << endl;
 			cout << "*****************************************************************************" << endl;
 			cout << "请选择(y/n)：";

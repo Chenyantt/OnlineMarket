@@ -17,6 +17,7 @@ public:
 	int getstate() const; void check_info() const; 
 	void mod_info(); void recharge();
 	void ban(); void mod_money(double n);
+	void Account();
 private:
 	static int UserNum;
 	string user_id;

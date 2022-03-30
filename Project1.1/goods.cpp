@@ -8,7 +8,7 @@ Goods::Goods() {
 	goods_state = -1;
 }
 
-Goods::Goods(string* id, string* name, double p, int n, string* d, string* s,string* time,int state) {
+Goods::Goods(string* id, string* name, double p, int n, string* d, string* s,string* time,int state,string mode) {
 	GoodsNum += 1;
 	goods_id = *id;
 	goods_name = *name;
@@ -18,6 +18,7 @@ Goods::Goods(string* id, string* name, double p, int n, string* d, string* s,str
 	seller = *s;
 	goods_time = *time;
 	goods_state = state;
+	accountmode = mode;
 }
 
 Goods::Goods(Goods& g) {
@@ -29,6 +30,7 @@ Goods::Goods(Goods& g) {
 	seller = g.seller;
 	goods_time = g.goods_time;
 	goods_state = g.goods_state;
+	accountmode = g.accountmode;
 }
 
 int Goods::GetNum() {

@@ -297,7 +297,7 @@ int Trolley::buy(string id, int n) {
 			for (j = 0; goods[j].getstate() != -1; ++j) {
 				if (items[i].id == goods[j].getid()) break;
 			}
-			if (goods[j].getnumber() < items[i].number) {
+			if (goods[j].getnumber() < n) {
 				string input;
 				back:
 				cout << "ÒÔÏÂÉÌÆ·´æ»õ²»×ã£¬ÇëÈ·ÈÏÊÇ·ñ¹ºÂò(1. ¹ºÂòÈ«²¿Ê£ÓàÉÌÆ· 2.È¡Ïû¹ºÂò)"<< endl;
@@ -316,16 +316,16 @@ int Trolley::buy(string id, int n) {
 					cout << FRONT_RED << "Óà¶î²»×ã£¬¹ºÂòÊ§°Ü" << RESET << endl;
 					return 0;
 				}
-				int n = Insert("INSERT INTO order VALUES(" + id + "," + to_string(goods[j].getnumber()) + ")", 2, owner->getid());
-				if (n != -1) Update("UPDATE commodity SET number = 0 WHERE goods_id = " + id, 2, owner->getid());
+				int n1 = Insert("INSERT INTO order VALUES(" + id + "," + to_string(goods[j].getnumber()) + ")", 2, owner->getid());
+				if (n1 != -1) Update("UPDATE commodity SET number = 0 WHERE goods_id = " + id, 2, owner->getid());
 			}
 			else {
-				if (items[i].price * items[i].number > owner->getmoney()) {
+				if (items[i].price * n > owner->getmoney()) {
 					cout << FRONT_RED << "Óà¶î²»×ã£¬¹ºÂòÊ§°Ü" << RESET << endl;
 					return 0;
 				}
-				int n = Insert("INSERT INTO order VALUES(" + id + "," + to_string(items[i].number) + ")", 2, owner->getid());
-				if (n != -1) Update("UPDATE commodity SET number = " + to_string(n) + " WHERE goods_id = " + id, 2, owner->getid());
+				int n1 = Insert("INSERT INTO order VALUES(" + id + "," + to_string(n) + ")", 2, owner->getid());
+				if (n1 != -1) Update("UPDATE commodity SET number = " + to_string(n1) + " WHERE goods_id = " + id, 2, owner->getid());
 			}
 			remove(id, items[i].number);
 			return 1;

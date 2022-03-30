@@ -285,7 +285,12 @@ vector<string> Eval(vector<string> &vec) {
 
 string vec_to_str(vector<string> vec) {
 	stringstream ss;
-	double d = (double)((int)(stod(vec[0]) * 10+0.5));
+	double d;
+	if (stod(vec[0]) < 0) {
+		d = (double)((int)(-1*stod(vec[0]) * 10 + 0.5));
+		d *= -1;
+	}
+	else d = (double)((int)(stod(vec[0]) * 10+0.5));
 	ss << setprecision(1) <<fixed << d/10;
 	string str=ss.str();
 	if (str[str.find('.') + 1] == '0') return str.substr(0, str.length() - 2);

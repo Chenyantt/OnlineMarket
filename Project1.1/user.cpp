@@ -124,9 +124,9 @@ void User::check_info() const {
 void User::seller_menu() {
 	system("cls");
 	while (true) {
-		cout << "======================================================================================" << endl;
-		cout << "1.发布商品 2.查看发布商品 3.修改商品信息 4.下架商品 5.查看历史订单 6.返回登录主界面" << endl;
-		cout << "======================================================================================" << endl;
+		cout << "=====================================================================================================" << endl;
+		cout << "1.发布商品 2.查看发布商品 3.修改商品信息 4.下架商品 5.查看历史订单 6.发布商品优惠 7.返回登录主界面" << endl;
+		cout << "=====================================================================================================" << endl;
 		cout << "请输入：";
 		string input,attribute,value,id,name,des,number;
 		getline(cin, input);
@@ -208,6 +208,9 @@ void User::seller_menu() {
 				Check("SELECT * FROM order", 2, user_id);
 				break;
 			case '6':
+				Account();
+				break;
+			case '7':
 				system("cls");
 				cout << FRONT_RED<<"--- 返回主界面 ---"<<RESET << endl;
 				return;
@@ -219,6 +222,71 @@ void User::seller_menu() {
 		}
 	}
 	return;
+}
+
+void User::Account() {
+	string goods_id;
+	cout << "请输入要优惠的商品ID：";
+	getline(cin, goods_id);
+	while (goods_id == "") getline(cin, goods_id);
+	int j = 0;
+	for (; goods[j].getstate() != -1; ++j) {
+		if (goods[j].getid() == goods_id && goods[j].getseller() == getid()) break;
+	}
+	if (goods[j].getstate() != -1) {
+		back:
+		string mode;
+		cout << "请输入优惠活动的模式(1.满减额活动  2.买赠活动)：";
+		getline(cin, mode);
+		while (mode == "") getline(cin, mode);
+		if (mode == "1") {
+			string sum,money;
+			cout << "请输入满减金额（每满多少开始减免）:";
+			getline(cin, sum);
+			while (sum == "") getline(cin, sum);
+			if (!IsNumberLegal(sum)) {
+				cout << FRONT_RED << "输入错误，请重新输入!!!" << RESET << endl;
+				goto back;
+			}
+			cout << "请输入减免的金额（每满额后减免多少）:";
+			getline(cin, money);
+			while (money == "") getline(cin, money);
+			if (!IsNumberLegal(money) || stod(money) >= stod(sum)) {
+				cout << FRONT_RED << "输入错误，请重新输入!!!" << RESET << endl;
+				goto back;
+			}
+			goods[j].accountmode = sum + "-" + money;
+			cout << FRONT_GREEN << "发布成功" << RESET << endl;
+			return;
+		}
+		else if (mode == "2") {
+			string sum, money;
+			cout << "请输入购买数量（每买多少开始送）:";
+			getline(cin, sum);
+			while (sum == "") getline(cin, sum);
+			if (!IsLegal(sum, 10, 4) || !IsNumberLegal(sum)) {
+				cout << FRONT_RED << "输入错误，请重新输入!!!" << RESET << endl;
+				goto back;
+			}
+			cout << "请输入赠送的数量（买后送多少）:";
+			getline(cin, money);
+			while (money == "") getline(cin, money);
+			if (!IsLegal(money, 10, 4) || !IsNumberLegal(money)) {
+				cout << FRONT_RED << "输入错误，请重新输入!!!" << RESET << endl;
+				goto back;
+			}
+			goods[j].accountmode = sum + "/" + money;
+			cout << FRONT_GREEN << "发布成功" << RESET << endl;
+			return;
+		}else{
+			cout << FRONT_RED << "输入错误，请重新输入!!!" << RESET << endl;
+			goto back;
+		}
+	}
+	else {
+		cout << FRONT_RED << "未查询到该商品ID!!!" << RESET << endl;
+		return;
+	}
 }
 
 void User::buyer_menu() {

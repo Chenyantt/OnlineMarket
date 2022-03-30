@@ -58,7 +58,7 @@ int Insert_goods(string command, int mode, string id) {
 			info = localtime(&rawtime);
 			strftime(buffer, 80, "%Y-%m-%d", info);
 			string buffer_s = buffer;
-			goods[Goods::GetNum() - 1] = Goods(&mid, &name, stod(price), stoi(number), &des, &id, &buffer_s, 1);
+			goods[Goods::GetNum() - 1] = Goods(&mid, &name, stod(price), stoi(number), &des, &id, &buffer_s, 1,"0");
 			strftime(buffer, 80, "%Y-%m-%d %H:%M:%S: ", info);
 			ofstream ofile;
 			ofile.open("commands.txt", ios::app);
@@ -99,6 +99,8 @@ int Insert_order(string command, int mode, string id) {
 			}
 			double price = goods[i].getprice();
 			string seller = goods[i].getseller();
+			int a = 0;
+			double b = 0;
 			for (int j = 0; users[j].getstate() != -1; ++j) {
 				if (users[j].getid() == id) {
 					double balance = users[j].getmoney();
@@ -112,9 +114,17 @@ int Insert_order(string command, int mode, string id) {
 					}
 					for (int k = 0; users[k].getstate() != -1; ++k) {
 						if (users[k].getid() == goods[i].getseller()) {
-							users[k].mod_money(-1*price * number);
+							if (goods[i].accountmode.find('-') != -1) {
+								a = (int)(number * price / stod(goods[i].accountmode.substr(0, goods[i].accountmode.find('-'))));
+								b = stod(goods[i].accountmode.substr(goods[i].accountmode.find('-') + 1));
+							}
+							users[k].mod_money(-1*price * number+a*b);
 							break;
 						}
+					}
+					users[j].mod_money(price * number - a * b);
+					if (goods[i].accountmode.find('/') != -1) {
+						number += number / stoi(goods[i].accountmode.substr(0, goods[i].accountmode.find('/'))) * stoi(goods[i].accountmode.substr(goods[i].accountmode.find('/') + 1));
 					}
 					time_t rawtime;
 					struct tm* info;
@@ -122,12 +132,11 @@ int Insert_order(string command, int mode, string id) {
 					time(&rawtime);
 					info = localtime(&rawtime);
 					strftime(buffer, 80, "%Y-%m-%d", info);
-					users[j].mod_money(price * number);
 					string tid = BuildUid('T'),buffer_s=buffer;
 					orders[Order::GetNum() - 1] = Order(tid,goods_id,price,number,buffer_s,goods[i].getseller(),id);
 					cout <<FRONT_GREEN<< "********************************************************************************************" << endl;
 					cout << "交易提醒！" << endl;
-					cout << "交易时间: " << buffer << endl << "交易单价:" << price << endl
+					cout << "交易时间: " << buffer << endl << "交易单价：" << price << endl
 						<< "交易数量：" << number << endl <<"交易状态：交易成功"<<endl << "您的余额: " << users[j].getmoney() << endl;
 					cout << "********************************************************************************************"<<RESET << endl;
 					ofstream ofile;
@@ -137,6 +146,7 @@ int Insert_order(string command, int mode, string id) {
 						<<',' << fixed << setprecision(1) << price <<','<<number<<',' << buffer_s 
 						<<','<<goods[i].getseller()<<','<<id<<')' << '\n';
 					ofile.close();
+					if (goods[i].getnumber() - number < 0) return 0;
 					return goods[i].getnumber()-number;
 				}
 			}

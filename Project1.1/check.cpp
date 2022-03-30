@@ -64,6 +64,10 @@ void CheckGoods(string command, int mode, string name) {
 			cout << "商品ID: " << id << endl << "商品名称: " << goods[j].getname() << endl
 				<< "商品价格：" << goods[j].getprice() << endl << "上架时间: " << goods[j].gettime() << endl
 				<< "商品描述: " << goods[j].getdes() << endl << "商品卖家: " << goods[j].getseller() << endl;
+			if (goods[j].accountmode == "0") cout << "活动优惠：暂无" << endl;
+			else if(goods[j].accountmode.find('-') != -1) 
+				cout << "活动优惠：每满" << goods[j].accountmode.substr(0,goods[j].accountmode.find('-')) << "元减免" << goods[j].accountmode.substr(goods[j].accountmode.find('-')+1) << "元" << endl;
+			else cout << "活动优惠：每买" << goods[j].accountmode.substr(0, goods[j].accountmode.find('/')) << "送" << goods[j].accountmode.substr(goods[j].accountmode.find('/') + 1) << endl;
 			cout << "*****************************"<< endl;
 		}
 		else {
@@ -95,6 +99,10 @@ void CheckGoods(string command, int mode, string name) {
 					cout << endl;
 					flag = 1;
 				}
+				if (goods[i].accountmode != "0") {
+					if (goods[i].accountmode.find('-') != -1) cout << FRONT_DARKGREEN << REVERSE;
+					else cout << FRONT_YELLOW << REVERSE;
+				}
 				cout << setw(10) << goods[i].getid() << setw(15) << goods[i].getname() 
 					 <<setw(8) << goods[i].getprice() << setw(15) << goods[i].gettime();
 				if (mode != 2) cout << setw(10) << goods[i].getseller();
@@ -103,7 +111,7 @@ void CheckGoods(string command, int mode, string name) {
 					if (goods[i].getstate() == 1) cout << setw(10) << "销售中";
 					else cout << setw(10) << "已下架";
 				}
-				cout << endl;
+				cout <<RESET << endl;
 			}
 		}
 	}
@@ -229,6 +237,10 @@ void CheckGoods(string command, int mode, string name) {
 			cout << endl;
 			for (int i = 0; goods[i].getstate() != -1; ++i) {
 				if (mode == 1 || (mode == 2 && goods[i].getseller() == name) || (mode == 3 && goods[i].getstate() != 0)) {
+					if (goods[i].accountmode != "0") {
+						if (goods[i].accountmode.find('-') != -1) cout << FRONT_DARKGREEN << REVERSE;
+						else cout << FRONT_YELLOW << REVERSE;
+					}
 					cout << setw(10) << goods[i].getid() << setw(15) << goods[i].getname()
 						<< setw(8) << goods[i].getprice() << setw(15) << goods[i].gettime();
 					if (mode != 2) cout << setw(10) << goods[i].getseller();
@@ -237,7 +249,7 @@ void CheckGoods(string command, int mode, string name) {
 						if (goods[i].getstate() == 1) cout << setw(10) << "销售中";
 						else cout << setw(10) << "已下架";
 					}
-					cout << endl;
+					cout << RESET << endl;
 				}
 			}
 			cout << "********************************************************************************************" << endl;
