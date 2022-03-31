@@ -26,3 +26,5 @@
  * Repair the bug of shopping trolley
 
  * Add the discount module
+
+2022/4/01 version for Linux
