@@ -1,0 +1,1 @@
+commodityID,commodityName,price,number,description,sellerID,addedDate,state
